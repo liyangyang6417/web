@@ -30,12 +30,18 @@ $(function(){
 	
 	function nextPage(next){
 		var currLeft = 0 
-		var poistion = $list.position().left
-		var targetLeft = poistion+(next?-PAGE_WIDTH:PAGE_WIDTH)
 		var itemOffset = 0
+		var offset = 0
+		var poistion = $list.position().left
+		if(typeof next === 'boolean'){
+			offset = next?-PAGE_WIDTH:PAGE_WIDTH	
+		}else{
+			offset = -(next+1)*PAGE_WIDTH - poistion
+		}
+		var targetLeft = poistion+offset
 		var intervalId = setInterval(function(){
-			itemOffset += PAGE_WIDTH/(TIME/ITEM_TIME)
-			currLeft = next?poistion-itemOffset:poistion+itemOffset
+			itemOffset += offset/(TIME/ITEM_TIME)
+			currLeft = poistion+itemOffset 
 			if(currLeft == targetLeft){
 				if(currLeft == -(imgCount+1)*PAGE_WIDTH){
 					currLeft = -PAGE_WIDTH
@@ -44,10 +50,9 @@ $(function(){
 				}
 				clearInterval(intervalId)//取消定时器
 			}
-			
 			$list.css('left',currLeft)
-			updatePoints(targetLeft)//圆点更新
 		},ITEM_TIME)
+		updatePoints(targetLeft)//圆点更新
 	}
 	//3. 每隔3s自动滑动到下一页
 	var intervalId = setInterval(function(){
@@ -65,7 +70,6 @@ $(function(){
 	function updatePoints(targetLeft){
 		var pageNum = -targetLeft/PAGE_WIDTH
 		pageNum = (pageNum == 0)?imgCount-1:((pageNum == imgCount+1)?0:pageNum-1	)//计算point位置
-		console.log(pageNum)
 		$points.each(function(index){
 			if(index == pageNum){
 				$(this).addClass('on')
@@ -74,4 +78,8 @@ $(function(){
 			}
 		})
 	}
+	//6. 点击圆点图标切换到对应的页
+	$points.click(function(){
+		nextPage($(this).index())
+	})
 })
