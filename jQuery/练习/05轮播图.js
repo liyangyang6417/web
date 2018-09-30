@@ -12,11 +12,13 @@
 $(function(){
 	//1. 点击向右(左)的图标, 平滑切换到下(上)一页
 	var TIME = 400
+	var TIME_ = 1500
 	var ITEM_TIME = 20
 	var PAGE_WIDTH = 600
 	var $container = $('#container') 
 	var $list = $('#list')
-	var imgCount = $('#pointsDiv>span').length
+	var $points = $('#pointsDiv>span')
+	var imgCount = $points.length
 	//向前翻页
 	$('#prev').click(function(){
 		nextPage(false)	
@@ -44,8 +46,32 @@ $(function(){
 			}
 			
 			$list.css('left',currLeft)
-			
+			updatePoints(targetLeft)//圆点更新
 		},ITEM_TIME)
 	}
-	
+	//3. 每隔3s自动滑动到下一页
+	var intervalId = setInterval(function(){
+		nextPage(true)
+	},TIME_)
+	//4. 当鼠标进入图片区域时, 自动切换停止, 当鼠标离开后,又开始自动切换
+	$container.hover(function(){
+		clearInterval(intervalId)
+	},function(){
+		intervalId = setInterval(function(){
+		nextPage(true)
+	},TIME_)
+	})
+	//5.切换页面时, 下面的圆点也同步更新
+	function updatePoints(targetLeft){
+		var pageNum = -targetLeft/PAGE_WIDTH
+		pageNum = (pageNum == 0)?imgCount-1:((pageNum == imgCount+1)?0:pageNum-1	)//计算point位置
+		console.log(pageNum)
+		$points.each(function(index){
+			if(index == pageNum){
+				$(this).addClass('on')
+			}else{
+				$(this).removeClass('on')
+			}
+		})
+	}
 })
