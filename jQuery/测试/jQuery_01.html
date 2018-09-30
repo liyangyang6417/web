@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+	</head>
+	<body>
+		<div>
+			<button id = 'btn'>测试</button>
+			<br />
+			<input type="text" name="msg1"/><br />
+			<input type="text" name="msg1"/><br />
+		</div>
+	
+		 <script src="js/jquery-1.10.1.js"></script>
+		 <script type="text/javascript">
+		$(function(){
+			$('#btn').click(function(){
+				alert(this.innerHTML)
+				//alert($('.msg1').val())
+			$('<input type="text" name="msg1"/><br />').appendTo('div')	
+			})
+		})
+		
+		var arr = [1,2,3,4]
+		$.each(arr, function(index,item) {
+			console.log(index+':'+item)
+		});
+		
+		var str = "  sdasda  "
+		console.log($.trim(str))
+		 </script>
+	</body>
+</html>
