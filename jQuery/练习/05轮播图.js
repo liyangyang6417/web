@@ -12,13 +12,14 @@
 $(function(){
 	//1. 点击向右(左)的图标, 平滑切换到下(上)一页
 	var TIME = 400
-	var TIME_ = 1500
+	var TIME_ = 3000
 	var ITEM_TIME = 20
 	var PAGE_WIDTH = 600
 	var $container = $('#container') 
 	var $list = $('#list')
 	var $points = $('#pointsDiv>span')
 	var imgCount = $points.length
+	var moving = false//标识是否正在翻页
 	//向前翻页
 	$('#prev').click(function(){
 		nextPage(false)	
@@ -29,6 +30,11 @@ $(function(){
 	})
 	
 	function nextPage(next){
+		if(moving){
+			return
+		}
+		moving = true
+		
 		var currLeft = 0 
 		var itemOffset = 0
 		var offset = 0
@@ -49,6 +55,7 @@ $(function(){
 					currLeft = -imgCount*PAGE_WIDTH
 				}
 				clearInterval(intervalId)//取消定时器
+				moving = false
 			}
 			$list.css('left',currLeft)
 		},ITEM_TIME)
