@@ -24,7 +24,21 @@ $(function(){
 	hoverSubMenu()
 	search()
 	share()
+	address()
 	
+/*5. 鼠标移入移出切换地址的显示隐藏*/
+	function address () {
+		var $select = $('#store_select')
+		$select.hover(function(){
+			$('#store_content').show()
+		},function(){
+			$('#store_content').hide()
+		})
+		.children(':last').show()
+		.click(function(){
+			$select.children(':gt(0)').hide()
+		})
+	}
 /*4. 点击显示或者隐藏更多的分享图标*/
 	function share(){
 		var isOpen = false
