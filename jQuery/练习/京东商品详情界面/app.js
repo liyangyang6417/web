@@ -23,7 +23,29 @@ $(function(){
 	showHide()
 	hoverSubMenu()
 	search()
+	share()
 	
+/*4. 点击显示或者隐藏更多的分享图标*/
+	function share(){
+		var isOpen = false
+		var $shareMore = $('#shareMore')
+		var $parent = $shareMore.parent()
+		var $as = $shareMore.prevAll(':lt(2)')
+		var $b = $shareMore.children()
+		$('#shareMore').click(function(){
+			if(isOpen){//去关闭
+				$parent.width('155')
+				$as.hide()
+				$b.removeClass('backword')
+			}else{//去打开
+				$parent.width('200')
+				$as.show()
+				$b.addClass('backword')
+			}
+			isOpen = !isOpen
+		})
+		 
+	}
 /*3. 输入搜索关键字, 列表显示匹配的结果*/
 	function search (){
 		$('#txtSearch')
