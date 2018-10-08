@@ -26,7 +26,18 @@ $(function(){
 	share()
 	address()
 	clickTabs()
+	hoverMinicart()
 	
+/*7. 鼠标移入移出切换显示迷你购物车*/
+	function hoverMinicart () {
+		$('#minicart').hover(function(){
+			this.className = 'minicart'
+			$(this).children(':last').show()
+		},function(){
+			this.className = ''
+			$(this).children(':last').hide()
+		})
+	}
 /*6. 点击切换地址tab*/
 	function clickTabs () {
 		var $li = $('#store_tabs>li')
@@ -39,11 +50,11 @@ $(function(){
 	function address () {
 		var $select = $('#store_select')
 		$select.hover(function(){
-			$('#store_content').show()
+			$(this).children(':gt(0)').show()
 		},function(){
-			$('#store_content').hide()
+			$(this).children(':gt(0)').hide()
 		})
-		.children(':last').show()
+		.children(':last')
 		.click(function(){
 			$select.children(':gt(0)').hide()
 		})
