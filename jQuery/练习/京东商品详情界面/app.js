@@ -25,7 +25,16 @@ $(function(){
 	search()
 	share()
 	address()
+	clickTabs()
 	
+/*6. 点击切换地址tab*/
+	function clickTabs () {
+		var $li = $('#store_tabs>li')
+		$li.click(function(){
+			$li.removeClass('hover')
+			$(this).addClass('hover')
+		})
+	}
 /*5. 鼠标移入移出切换地址的显示隐藏*/
 	function address () {
 		var $select = $('#store_select')
