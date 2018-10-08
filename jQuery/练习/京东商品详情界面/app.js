@@ -28,6 +28,45 @@ $(function(){
 	clickTabs()
 	hoverMinicart()
 	clickProductTabs()
+	moveMiniImg()
+/*9. 点击向右/左, 移动当前展示商品的小图片*/
+	function moveMiniImg () {
+		var $as = $('#preview>h1>a')
+		var $backward = $as.first()//左按钮
+		var $forward = $as.last()//右按钮
+		var moveCount = 0
+		var SHOW_COUNT = 5
+		var imgCount = $('#icon_list>li').length//图片个数
+		var $ul = $('#icon_list')
+		var li_length = 	$('#icon_list>li:first').width()
+		
+		if(imgCount > SHOW_COUNT){//初始化向右按钮
+			$forward.attr('class','forward')	
+		}
+		$backward.click(function(){
+			if(moveCount == 0){
+				return
+			}
+			moveCount--
+			$forward.attr('class','forward')
+			$ul.css('left', -moveCount * li_length )
+			if(moveCount == 0){
+				$backward.attr('class','backward_disabled')
+			}
+		})
+		$forward.click(function(){
+			if(moveCount === imgCount-SHOW_COUNT){
+				return
+			}
+			$backward.attr('class','backward')
+			moveCount++
+			if(moveCount === imgCount-SHOW_COUNT){
+				$forward.attr('class','forward_disabled')
+			}
+			$ul.css('left', -moveCount * li_length )
+			
+		})
+	}
 /*8. 点击切换产品选项 (商品详情等显示出来)*/
 	function clickProductTabs () {//current
 		var $li = $('#product_detail>ul>li')
