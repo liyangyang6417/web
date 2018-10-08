@@ -21,7 +21,32 @@
  */
 $(function(){
 	showHide()
+	hoverSubMenu()
+	search()
 	
+/*3. 输入搜索关键字, 列表显示匹配的结果*/
+	function search (){
+		$('#txtSearch')
+			.on('keyup focus',function(){
+				var txt = this.value.trim()
+				if(txt){
+					$('#search_helper').show()					
+				}
+			})
+			.blur(function(){
+				$('#search_helper').hide()
+			})
+	}
+
+/*2. 鼠标移动切换二级导航菜单的切换显示和隐藏*/
+	function hoverSubMenu (){
+		$('#category_items>div').hover(function(){
+			$(this).children(':last').show()
+		},function(){
+			$(this).children(':last').hide()
+		})
+	}
+/* 1. 鼠标移入显示,移出隐藏 ，目标: 手机京东, 客户服务, 网站导航, 我的京东, 去购物车结算, 全部商品*/	
 	function showHide(){
 		$('[name = show_hide]').hover(function(){
 		var id = this.id +'_items'
@@ -31,4 +56,5 @@ $(function(){
 		$('#'+ id).hide()
 	})
 	}
+	
 })
