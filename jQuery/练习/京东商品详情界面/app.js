@@ -27,7 +27,19 @@ $(function(){
 	address()
 	clickTabs()
 	hoverMinicart()
-	
+	clickProductTabs()
+/*8. 点击切换产品选项 (商品详情等显示出来)*/
+	function clickProductTabs () {//current
+		var $li = $('#product_detail>ul>li')
+		var $contents = $('#product_detail>div:not(:first)')
+		$li.click(function(){
+			$li.removeClass('current')
+			this.className = 'current'
+			$contents.hide()
+			var index = $(this).index()
+			$contents.eq(index).show()
+		})
+	}
 /*7. 鼠标移入移出切换显示迷你购物车*/
 	function hoverMinicart () {
 		$('#minicart').hover(function(){
