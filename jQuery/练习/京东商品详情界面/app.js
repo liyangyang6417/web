@@ -29,6 +29,82 @@ $(function(){
 	hoverMinicart()
 	clickProductTabs()
 	moveMiniImg()
+	hoverMiniImg()
+	bigImg()
+/*11. 当鼠标在中图上移动时, 显示对应大图的附近部分区域*/
+	function bigImg () {
+		var $maskTop = $('#maskTop')
+		var $mask = $('#mask')//小黄块
+		var maskWidth = $mask.width()
+		var maskHeight = $mask.height()
+		var maskTopWidth = $maskTop.width()
+		var maskTopHeight = $maskTop.height()
+		var mediumImgWidth = $('#mediumImg').width()
+		var mediumImgHeight = $('#mediumImg').height()
+		var $mediumImg = $('#mediumImg')
+		var $largeImgContainer = $('#largeImgContainer')//大图的容器
+		var $loading = $('#loading')//加载图
+		var $largeImg = $('#largeImg')//大图
+		$maskTop.hover(function(){
+			$mask.show()//显示小黄块
+			//2.大图
+			var largeImgSrc = $mediumImg.attr('src').replace('-m.','-l.')
+			$largeImg.attr('src',largeImgSrc)
+			$largeImgContainer.show()
+			$largeImg.on('load',function(){//大图加载完
+				$largeImgContainer.css({
+					width:$largeImg.width()/2,
+					height:$largeImg.height()/2
+				})
+				$largeImg.show()//显示大图
+				$loading.hide()
+				//添加鼠标移动监听
+				$maskTop.mousemove(function(event){//添加鼠标移动监听
+					var left = 0
+					var top = 0
+					left = event.offsetX - $mask.width()/2
+					top = event.offsetY -$mask.height()/2 
+					//设置小黄块滑动边界
+					if(left < 0){
+						left = 0
+					}else if(left > mediumImgWidth-maskWidth){
+						left = mediumImgWidth-maskWidth
+					}
+					if(top < 0 ){
+						top = 0
+					}else if(top > mediumImgHeight-maskHeight){
+						top = mediumImgHeight-maskHeight
+					}
+					$mask.css({//移动小黄块
+						left:left,
+						top:top
+					})
+					$largeImg.css({//移动大图 只显示¼
+						left:-left * $largeImg.width()/maskTopWidth,
+						top:-top * $largeImg.height()/maskTopHeight
+					})
+				})
+			})
+		},function(){
+			$mask.hide()
+			$largeImgContainer.hide()
+			$largeImg.hide()
+		})
+	}
+
+	
+/*10. 当鼠标悬停在某个小图上,在上方显示对应的中图*/
+	function hoverMiniImg () {
+		$('#icon_list>li').hover(function(){
+			var $img = $(this).children()
+			var src = $img.attr('src').replace('.jpg','-m.jpg')
+			$img.addClass('hoveredThumb')
+			$('#mediumImg').attr('src',src)
+		},function(){
+			var $img = $(this).children()
+			$(this).children().removeClass('hoveredThumb')
+		})
+	}
 /*9. 点击向右/左, 移动当前展示商品的小图片*/
 	function moveMiniImg () {
 		var $as = $('#preview>h1>a')
